@@ -1,7 +1,7 @@
 <?php
 //requires database library
 require_once 'db.php';
-//require_once 'db2.php';
+
 
 //SQL query
 $query = "
@@ -13,117 +13,92 @@ $query = "
 $statement = db::query($query, [$_GET['id']]);
 $data = $statement->fetchAll();
  
-//creates an array of the job locations
+//creates an array with the job locations
 $locations = explode(', ', $data[0]['location']);
 
-/*
-$stmt = $db ->prepare('SELECT * FROM products');
-$stmt ->execute();
-$data = $stmt ->fetchAll();
-
-var_dump($data);
-
-$db = db_connect($dbhost, $dbuser, $dbpassword);
-if($_POST) {
-    //store data in $data for check
-    foreach ($_POST as $key => $value) {
-    $data[$key]=$value;
-    };
-    
-    //basic name validation
-    $formFirstNameCheck = $_POST['formFirstName'];
-    if(empty($formFirstNameCheck)) {
-    die('please fill Your First Name');
-    }
-
-    $formLastNameCheck = $_POST['formLastName'];
-    if(empty($formLastNameCheck)) {
-    die('please fill Your Last Name');
-    }
-
-    //email validation
-    $formEmailCheck = $_POST['formEmail'];
-    if(empty($formEmailCheck)) {
-    die('please fill Your Email Address');
-    }
-    //phone validation
-    $formPhoneCheck = $_POST['formPhone'];
-    if(empty($formPhoneCheck)) {
-    die('please fill Your Phone Number');
-    }
-
-    $formWhyYouCheck = $_POST['formWhyYou'];
-    if(empty($formWhyYouCheck)) {
-    die('please Tell us why you are the best candidate for this job');
-    }
-    
-    // data to server
-    $stmt = $db->prepare('INSERT INTO applications (formFirstName, formLastName, formEmail, formPhone, formLinkedIn, formWhyYou) VALUES (?, ?, ?, ?, ?, ?)');
-    $stmt -> execute([$_POST['formFirstName'], $_POST['formLastName'], $_POST['formEmail'], $_POST['formPhone'], $_POST['formLinkedIn'], $_POST['formWhyYou'],]);
-    header ('Location: jobDetail.php?status=ok');
-    
-    
-    // gives a feedback to the user
-    
-    exit;
-}
-*/
 ?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title><?php echo $data[0]['title'] ?></title>
-</head>
-<body>
-  <h1> <?php echo $data[0]['title']?> </h1>  
-  <h4> <?php echo $data[0]['location']?> </h4>
+    <!DOCTYPE html>
+    <html lang="en">
 
-  <div class="content">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <script src="js/dropzone.js"></script>
+        <link href="css/dropzone.css" type="text/css" rel="stylesheet" />
 
-    <?php echo $data[0]['content']?>
+        <title>
+            <?php echo $data[0]['title'] ?>
+        </title>
+    </head>
 
-  </div>
+    <body>
 
-  <div class="apply">
+        <h1>
+            <?php echo $data[0]['title'] //job title ?> </h1>
+        <h4>
+            <?php echo $data[0]['location'] //job locations ?> </h4>
 
-<form id="form1" action="thankYou.php" method="post">
-<input name="jobId" type"text" id="jobId" value="<?php echo $data[0]['id'] ?>">
+        <div class="content">
+            <?php echo $data[0]['content'] //job description ?>
+        </div>
 
-<input name="formFirstName" type="text" id="formFirstName"   required>
+        <div class="apply">
 
-<input name="formLastName" type="text" id="formLastName" required>
+            <form id="form1" action="thankYou.php" method="post" enctype="multipart/form-data">
 
-<input name="formEmail" type="email" id="formEmail" required>
+                <input name="jobId" type "text" id="jobId" hidden value="<?php echo $data[0]['id'] /*for adding job id to application*/ ?>">
 
-<input name="formPhone" type="tel" id="formPhone" required>
+                <label for="formFirstName">First Name</label>
+                <input name="formFirstName" type="text" id="formFirstName" required>
 
-<input name="formLinkedIn" type="text" id="formLinkedIn" placeholder="Optional but recommended">
+                <label for="formLastName">Last Name</label>
+                <input name="formLastName" type="text" id="formLastName" required>
 
-<textarea name="formWhyYou" id="formWhyYou" placeholder="Tell us why you are the best candidate for this job. Be concise, please." required>
-</textarea>
+                <label for="formEmail">Email</label>
+                <input name="formEmail" type="email" id="formEmail" required>
 
-<select name="formLocation" id="formLocation"> 
-    <?php foreach ($locations as $value) {
+                <label for="formPhone">Phone</label>
+                <input name="formPhone" type="tel" id="formPhone" required>
+
+                <label for="formLinkedIn">LinkedIn</label>
+                <input name="formLinkedIn" type="text" id="formLinkedIn" placeholder="Optional but recommended">
+
+                <label for="formWhyYou">Why You?</label>
+                <textarea name="formWhyYou" id="formWhyYou" placeholder="Tell us why you are the best candidate for this job. Be concise, please."
+                    required>
+                </textarea>
+
+                <label for="formLocation">Location</label>
+                <select name="formLocation" id="formLocation">
+                    <?php foreach ($locations as $value) {
         //generates locations options list
-        echo '<option value="'.$value.'">'.$value.'</option>'; 
-    }
-    ?>     
-</select> 
-
-<div name="dropZone" id="dropZone" >
-  <strong>Drag one or more files to this Drop Zone ...</strong>
-</div>
+                         echo '<option value="'.$value.'">'.$value.'</option>'; 
+                        }
+                        ?>
+                </select>
 
 
+                <div id="myDropzone" class="dropzone">
+                    <div class="dz-default dz-message"><b>Your CV, portfolio, etc.</b>
+                        Select files or drop them right here.
+                        Max. 5 MB per file  
+                    </div>
+                </div>
 
-</form>
-<button type="submit" form="form1" value="Submit">Apply for this job</button>
-  </div>
+            </form>
+            <button type="submit" form="form1" value="Submit">Apply for this job</button>
+        </div>
 
 
-</body>
-</html>
 
+
+        <script>
+            var myDropzone = new Dropzone("div#myDropzone", { url: "upload.php", acceptedFiles: '.jpg,.doc,.pdf' });
+
+
+        </script>
+
+    </body>
+
+    </html>
