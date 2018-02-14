@@ -1,6 +1,4 @@
 <?php
-
-
 require 'db_personal.php';
 /* Attempt MySQL server connection.*/
 try{

@@ -1,22 +1,14 @@
 <?php
 
-//require database library
-require_once 'db.php';
+require 'db_personal.php';
+require 'db.php';
 
-//SQL query
-$query = "
-    SELECT `title`, `slug`, `id`
-    FROM `job_positions`
-    WHERE `is_active`= 1
-    ";
+$db = db_connect($dbhost, $dbuser, $dbpassword);
 
-//run the query
-$statement = db::query($query);
+$stmt = $db ->prepare('SELECT `title`, `slug`, `id` FROM `job_positions` WHERE `is_active`= 1');
+$stmt ->execute();
+$data = $stmt ->fetchAll();
 
-//fetch the results
-$data = $statement->fetchAll();
- 
-//var_dump($data);
 
 ?>
     <!DOCTYPE html>

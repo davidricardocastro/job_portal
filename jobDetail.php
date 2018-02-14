@@ -1,21 +1,19 @@
 <?php
-//requires database library
-require_once 'db.php';
 
-//SQL query
-$query = "
-    SELECT *
-    FROM `job_positions`
-    WHERE `id`=?
-    ";
+require 'db_personal.php';
+require 'db.php';
 
-$statement = db::query($query, [$_GET['id']]);
-$data = $statement->fetchAll();
- 
+$db = db_connect($dbhost, $dbuser, $dbpassword);
+
+$stmt = $db ->prepare("SELECT * FROM `job_positions` WHERE `id`='".$_GET['id']."'");
+$stmt ->execute();
+$data = $stmt ->fetchAll();
+
 //creates an array with the job locations
 $locations = explode(', ', $data[0]['location']);
 
 ?>
+
     <!DOCTYPE html>
     <html lang="en">
 
@@ -122,7 +120,7 @@ $locations = explode(', ', $data[0]['location']);
 
                                 <div class="form-group">
                                     <label for="formWhyYou">Why You?</label>
-                                    <textarea name="formWhyYou" class="form-control" rows="5" id="formWhyYou" placeholder="Tell us why you are the best candidate for this job. Be concise, please."
+                                    <textarea name="formWhyYou" class="form-control" rows="6" id="formWhyYou" placeholder="Tell us why you are the best candidate for this job. Be concise, please."
                                         required>
                                     </textarea>
                                 </div>

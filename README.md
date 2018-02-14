@@ -1,3 +1,24 @@
+# [instructions here!]
+
+*Create database with tables: 
+    job_positions
+    applications
+(use supplied scripts)
+
+*Add database details to the file db_personal.template.php, remove "template." from file name
+
+
+
+
+
+
+
+
+
+
+
+
+
 # [Start Bootstrap - Scrolling Nav](https://startbootstrap.com/template-overviews/scrolling-nav/)
 
 [Scrolling Nav](http://startbootstrap.com/template-overviews/scrolling-nav/) is an unstyled one page starter template with a collapsing, smooth scrolling navigation bar for [Bootstrap](http://getbootstrap.com/) created by [Start Bootstrap](http://startbootstrap.com/).
