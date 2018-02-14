@@ -60,7 +60,7 @@ $data = $stmt ->fetchAll();
 <section id="about">
       <div class="container">
         <div class="row">
-          <div class="col-lg-8 mx-auto">
+          <div class="col-lg-8 mx-auto text-center">
             <h2>Available positions</h2>
             <div class="listOfJobs">
             <ul class="list-group list-group-flush">
