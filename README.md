@@ -12,11 +12,14 @@
 # [instructions]
 
 *clone repository
+
     https://github.com/davidricardocastro/job_portal
 
 * Create database with tables: 
-    job_positions
-    applications
+
+    -job_positions
+    -applications
+    
     (use supplied scripts)
 
 * Add database details to the file db_personal.template.php, remove "template." from file name
